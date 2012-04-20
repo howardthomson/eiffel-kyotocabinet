@@ -11,8 +11,10 @@ feature -- Generic code, to be factored out ....
 
 	out_file: TEXT_FILE_WRITE
 	
-	set_class_name(a_name: STRING) is
+	set_class_name (a_name: STRING) is
 			-- Initialize, based on class name
+		require
+			valid_class_name: a_name /= Void
 		do
 			class_name := a_name
 			file_name := "make_" + class_name.as_lower + ".c"
@@ -22,8 +24,10 @@ feature -- Generic code, to be factored out ....
 		--	end
 		end
 
-	include(s: STRING) is
+	include (s: STRING) is
 			-- append an #include directive
+		require
+			non_void_filename: s /= Void
 		do
 			out_file.put_string("#include %"")
 			out_file.put_string(s)
@@ -33,6 +37,8 @@ feature -- Generic code, to be factored out ....
 	append_head is
 			-- boiler-plate code for data declarations
 			-- and start of 'main' routine
+		require
+			class_name_set: class_name /= Void
 		do
 			out_file.put_string("[
 				char *class_head =
@@ -57,16 +63,37 @@ feature -- Generic code, to be factored out ....
 			]")
 		end
 
-	process_integer_feature(s: STRING) is
+	insert_comment (a_comment: STRING)
+		require
+			valid_comment: a_comment /= Void
+		do
+			out_file.put_string ("%Tprintf(%"\t\t-- ")
+			out_file.put_string (a_comment)
+			out_file.put_string ("\n%");")
+		end
+
+	process_integer_feature (s: STRING)
+		require
+			valid_feature_name: s /= Void
+		do
+			process_integer_feature_as (s, s)
+		end
+
+	process_integer_feature_as (s1, s2: STRING)
+		require
+			valid_constant_name: s1 /= Void
+			valid_feature_name: s2 /= Void
 		do
 			out_file.put_string("%Tprintf(%"\t")
-			out_file.put_string(s)
+			out_file.put_string(s2)
 			out_file.put_string(": INTEGER is %%d\n%", ")
-			out_file.put_string(s)
+			out_file.put_string(s1)
 			out_file.put_string(");%N")
 		end
 
-	process_hexadecimal_feature(s: STRING) is
+	process_hexadecimal_feature (s: STRING)
+		require
+			valid_feature_name: s /= Void
 		do
 			out_file.put_string("%Tprintf(%"\t")
 			out_file.put_string(s)
