@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="eiffel-kyotocabinet" default="help">
+<project name="make_ekc_constants" default="help">
 
 	<description>
 		description: "Eiffel Ant file for 'eiffel-kyotocabinet'"
@@ -11,6 +11,7 @@
 
 	<inherit>
 		<parent location="${GOBO}/misc/eiffel.eant">
+			<redefine target="help"/>
 			<redefine target="init_system"/>
 			<redefine target="compile_ge"/>
 		</parent>
@@ -19,9 +20,18 @@
 
 <!-- Implementation -->
 
+	<target name="help">
+		<echo message="usage:"/>
+		<echo message="   geant make_ekc_constants"/>
+	</target>
+
 	<target name="init_system">
 		<set name="system" value="ekc_make_constants"/>
 		<set name="system_dir" value="/data/git/eiffel-kyotocabinet/library/constants"/>
+	</target>
+
+	<target name="make_ekc_constants">
+		<geant target="compile_ge"/>
 	</target>
 
 	<target name="compile_ge" depend="prepare_compile">

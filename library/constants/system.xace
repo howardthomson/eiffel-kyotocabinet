@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<system name="eiffel-kyotocabinet">
+<system name="make_ekc_constants">
 	<description>
 		system: "Eiffel wrapping of 'kyotocabinet'"
 		copyright: "Copyright (c) 2012 Howard Thomson and others"
