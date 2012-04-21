@@ -9,7 +9,7 @@ feature -- Generic code, to be factored out ....
 	class_name: STRING
 	file_name: STRING
 
-	out_file: TEXT_FILE_WRITE
+	out_file: KL_UNIX_OUTPUT_FILE
 	
 	set_class_name (a_name: STRING) is
 			-- Initialize, based on class name
@@ -18,8 +18,9 @@ feature -- Generic code, to be factored out ....
 		do
 			class_name := a_name
 			file_name := "make_" + class_name.as_lower + ".c"
-			create out_file.connect_to(file_name)
-		--	if not out_file.is_connected then
+			create out_file.make (file_name)
+			out_file.open_write
+		--	if not out_file.is_open_write then
 		--		die
 		--	end
 		end
@@ -107,7 +108,7 @@ feature -- Generic code, to be factored out ....
 		do
 			out_file.put_string("%Tprintf(class_tail);%N")
 			out_file.put_string("}%N")
-			out_file.disconnect
+			out_file.close
 		end
 
 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<system name="eiffel-kyotocabinet">
+	<description>
+		system: "Eiffel wrapping of 'kyotocabinet'"
+		copyright: "Copyright (c) 2012 Howard Thomson and others"
+		license: "MIT License"
+	</description>
+
+	<root class="EKC_MAKE_CONSTANTS" creation="make"/>
+	<option name="console_application" value="true"/>
+
+	<cluster name="ekc_constants" location="${system_dir}"/>
+	<mount location="${GOBO}/library/kernel.xace"/>
+	<mount location="${GOBO}/library/library.xace"/>
+	<option name="link" value="-lrt"/>
+	
+</system>
