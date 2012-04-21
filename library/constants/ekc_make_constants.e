@@ -39,6 +39,7 @@ feature
 			process_integer_feature_as ("KCENOIMPL", 	"Kce_noimpl")	-- Not Implemented
 			process_integer_feature_as ("KCEINVALID",	"Kce_invalid")	-- Invalid operation
 			process_integer_feature_as ("KCENOREPOS",	"Kce_norepos")	-- No repository
+			process_integer_feature_as ("KCENOPERM",	"Kce_noperm")	-- No permission
 			process_integer_feature_as ("KCEBROKEN", 	"Kce_broken")	-- Broken file
 			process_integer_feature_as ("KCEDUPREC", 	"Kce_duprec")	-- Record duplication
 			process_integer_feature_as ("KCENOREC", 	"Kce_norec")	-- No record
