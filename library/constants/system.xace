@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<system name="make_ekc_constants">
+<system name="make_ekc_constants_c">
 	<description>
 		system: "Eiffel wrapping of 'kyotocabinet'"
 		copyright: "Copyright (c) 2012 Howard Thomson and others"
@@ -11,8 +11,10 @@
 	<option name="console_application" value="true"/>
 
 	<cluster name="ekc_constants" location="${system_dir}"/>
+	
 	<mount location="${GOBO}/library/kernel.xace"/>
 	<mount location="${GOBO}/library/library.xace"/>
+	
 	<option name="link" value="-lrt"/>
 	
 </system>
