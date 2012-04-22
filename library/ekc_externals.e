@@ -641,7 +641,7 @@ feature -- Routines
 		alias "kccurgetvalue"
 		end
 
-	kc_curget (KCCUR* a_cur: POINTER; a_ksp: INTEGER_64; a_vbp: POINTER; a_vsp: POINTER; a_step: INTEGER_32): POINTER
+	kc_curget (a_cur: POINTER; a_ksp: INTEGER_64; a_vbp: POINTER; a_vsp: POINTER; a_step: INTEGER_32): POINTER
 			--   Get a pair of the key and the value of the current record.
 			--   @param cur a cursor object.
 			--   @param ksp the pointer to the variable into which the size of the region of the return
@@ -668,7 +668,7 @@ feature -- Routines
 		alias "kccurjump"
 		end
 
-	kc_curjumpkey (a_cur: POINTER; a_kbuf: POINTER, a_ksiz: INTEGER_64): INTEGER_32
+	kc_curjumpkey (a_cur: POINTER; a_kbuf: POINTER; a_ksiz: INTEGER_64): INTEGER_32
 			--   Jump the cursor to a record for forward scan.
 			--   @param cur a cursor object.
 			--   @param kbuf the pointer to the key region.
@@ -688,7 +688,7 @@ feature -- Routines
 		alias "kccurjumpback"
 		end
 
-	kc_curjumpbackkey (a_cur: POINTER; a_kbuf: POINTER, a_ksiz: INTEGER_64): INTEGER_32
+	kc_curjumpbackkey (a_cur: POINTER; a_kbuf: POINTER; a_ksiz: INTEGER_64): INTEGER_32
 			--   Jump the cursor to a record for backward scan.
 			--   @param cur a cursor object.
 			--   @param kbuf the pointer to the key region.

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="eiffel-kyotocabinet" default="help">
+<project name="test_ekc" default="help">
 
 	<description>
 		description: "Eiffel Ant file for 'eiffel-kyotocabinet'"
@@ -11,17 +11,33 @@
 
 	<inherit>
 		<parent location="${GOBO}/misc/eiffel.eant">
+			<redefine target="help"/>
 			<redefine target="init_system"/>
 			<redefine target="compile_ge"/>
+			<redefine target="clobber"/>
 		</parent>
 	</inherit>
 
 
 <!-- Implementation -->
 
+	<target name="help">
+		<echo message="usage:"/>
+		<echo message="   geant test_ekc"/>
+	</target>
+
 	<target name="init_system">
-		<set name="system" value="eiffel-kyotocabinet"/>
-		<set name="system_dir" value="/data/git/eiffel-kyotocabinet"/>
+		<set name="system" value="test_ekc"/>
+		<set name="system_dir" value="/data/git/eiffel-kyotocabinet/test"/>
+	</target>
+
+	<target name="test_ekc" depend="prepare_compile">
+		<echo message="${system_dir}"/>
+		<geant target="init_system"/>
+			<!-- Generate the Eiffel executable: test_ekc -->
+		<geant target="compile_ge"/>
+			<!-- Execute test_ekc -->
+		<exec executable="./exec_test_ekc"/>
 	</target>
 
 	<target name="compile_ge" depend="prepare_compile">
@@ -42,4 +58,22 @@
 		<gec ace="compile_ge.xace" catcall="no" finalize="${finalize}" c_compile="true" cat="false"/>
 	</target>
 
+	<target name="clobber">
+		<delete file="make_ekc_constants_c.sh"/>
+		<delete file="make_ekc_constants_c.Makefile"/>
+		<delete file="make_ekc_constants_c1.c"/>
+		<delete file="make_ekc_constants_c.h"/>
+		<delete file="make_ekc_constants_c1.o"/>
+		<delete file="make_ekc_constants_c"/>
+		<delete file="make_ekc_constants_c.c"/>
+		<delete file="compile_ge.xace"/>
+		<delete file="ekc_constants.e"/>
+		<delete>
+			<!-- How on earth does 'fileset' work ... ! -->
+			<fileset include="@(*.h)"/>
+			<fileset include="*.c"/>
+			<fileset include="*.Makefile"/>
+			<fileset include="*.sh"/>
+		</delete>
+	</target>
 </project>

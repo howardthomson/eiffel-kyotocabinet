@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<library name="eiffel-kyotocabinet">
+
+	<description>
+		description: "Xace file for the Eiffel-Kyotocabinet library"
+		copyright: "Copyright (c) 2012, Howard Thomson and others"
+		license: "MIT License"
+	</description>
+
+	<cluster name="ekc_base" location="/data/git/eiffel-kyotocabinet/library">
+		<cluster name="constants"/>
+	</cluster>
+	
+</library>
