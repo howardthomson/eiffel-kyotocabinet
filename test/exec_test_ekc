@@ -1,2 +1,2 @@
 export LD_LIBRARY_PATH=/data/Master/dbms/kyotocabinet/kyotocabinet-1.2.24
-./test_ekc
+./test_ekc order -etc -rnd ./test-file-ekc.kct 1000000

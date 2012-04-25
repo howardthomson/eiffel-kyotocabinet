@@ -5,36 +5,9 @@ note
 
 class EKC_EXTERNALS
 
-feature -- Constants
+inherit
 
-		-- Error codes:
-	Kce_success	: INTEGER = 0	-- Success					0 or 1 ?????
-	Kce_noimpl	: INTEGER = 1	-- Not Implemented
-	Kce_invalid	: INTEGER = 2	-- Invalid operation
-	Kce_norepos	: INTEGER = 3	-- No repository
-	Kce_broken	: INTEGER = 4	-- Broken file
-	Kce_duprec	: INTEGER = 5	-- Record duplication
-	Kce_norec	: INTEGER = 6	-- No record
-	Kce_logic	: INTEGER = 7	-- Logical inconsistency
-	Kce_system	: INTEGER = 8	-- System error
-	Kce_misc	: INTEGER = 15	-- Miscellaneous error
-
-		-- Open modes:
-	Kco_reader	: INTEGER = 1
-	Kco_writer	: INTEGER = 2
-	Kco_create	: INTEGER = 4
-	Kco_truncate: INTEGER = 8
-	Kco_autotran: INTEGER = 16
-	Kco_autosync: INTEGER = 32
-	Kco_nolock	: INTEGER = 64
-	Kco_trylock	: INTEGER = 128
-	Kco_norepair: INTEGER = 256
-
-		-- Merge modes:
-	Kcm_set		: INTEGER = 0
-	Kcm_add		: INTEGER = 1
-	Kcm_replace	: INTEGER = 2
-	Kcm_append	: INTEGER = 3
+	EKC_CONSTANTS
 	
 feature -- Routines
 
