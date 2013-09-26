@@ -7,12 +7,12 @@
 		license: "MIT License"
 	</description>
 
-	<root class="EKC_LANG_C_TEST" creation="make"/>
+	<root class="EKC_TEST" creation="make"/>
 	<option name="console_application" value="true"/>
 
 	<cluster name="test_ekc" location="${system_dir}"/>
 
-	<mount location="/data/git/eiffel-kyotocabinet/library/library.xace"/>
+	<mount location="/data/git/eiffel/eiffel-kyotocabinet/library/library.xace"/>
 	
 	<mount location="${GOBO}/library/kernel.xace"/>
 	<mount location="${GOBO}/library/library.xace"/>

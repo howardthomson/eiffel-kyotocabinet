@@ -2,12 +2,6 @@ indexing
 
 	description: "Generate class for KyotoCabinet constants"
 
-	comment: "[
-		Due to the heavy use of enums in cryptlib.h, is is not possible
-		or appropriate to write a direct translation of the integer values
-		of the C header file.
-	]"
-
 class EKC_MAKE_CONSTANTS
 
 inherit

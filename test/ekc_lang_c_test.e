@@ -44,7 +44,8 @@ inherit
 	KL_SHARED_ARGUMENTS
 	KL_SHARED_EXCEPTIONS
 	STRING_HANDLER
-
+	TEST_COMMON
+	
 create
 
 	make
@@ -115,13 +116,6 @@ feature -- Creation
 			Exceptions.die (1)	--	  exit(1);
 		end
 
-	iputchar (c: CHARACTER)
-			--	print a character and flush the buffer
-		do
-			io.output.putchar (c)
-			io.output.flush
-		end
-
 	dberrprint (db: POINTER; line: INTEGER_32; func: STRING)
 			--	print error message of database
 			--	static void dberrprint(KCDB* db, int32_t line, const char* func) {
@@ -186,29 +180,6 @@ feature -- Creation
 			end
 		end
 
-	print_time (a_time: REAL_64)
-		do
-			print ("time: ")
-			print (a_time.out)
-			print (once "%N%N")
-		end
-
-	print_i_width8_nl (a_value: INTEGER_64)
-			-- print ("'i' in width_8")
-		local
-			l_str: STRING
-			i, imax: INTEGER
-		do
-		--	create l_str.make (8)
-			l_str := a_value.out
-			imax := l_str.count
-			from i := 1 until i > (8 - imax) loop
-				print (once "0")
-				i := i + 1
-			end
-			print (l_str)
-			print (once "%N")
-		end
 
 --	/* visit a full record */
 --	const char* visitfull(const char* kbuf, size_t ksiz,
@@ -309,29 +280,6 @@ feature {NONE} -- Implementation ...
 
 	write_buffer_internal: STRING_8
 
-	print_width_decimal (a_value: INTEGER_64): INTEGER
-			-- Return the print width for a decimal number,
-			-- no leading zeros
-		do
-			if     a_value > 10000000 then
-				Result := 8
-			elseif a_value > 1000000 then
-				Result := 7
-			elseif a_value > 100000 then
-				Result := 6
-			elseif a_value > 10000 then
-				Result := 5
-			elseif a_value > 1000 then
-				Result := 4
-			elseif a_value > 100 then
-				Result := 3
-			elseif a_value > 10 then
-				Result := 2
-			else
-				Result := 1
-			end
-		end
-
 	key_buffer (a_rnd: BOOLEAN; a_rnum: INTEGER_64; a_i: INTEGER_64): STRING_8
 			-- Generate 8-char string value for either 'i' or
 			-- random value based on rnum
@@ -339,6 +287,7 @@ feature {NONE} -- Implementation ...
 			l_val: INTEGER_64
 			i: INTEGER
 			l_str: STRING
+			w: INTEGER
 		do
 			Result := key_buffer_internal; Result.wipe_out
 			if a_rnd then
@@ -346,13 +295,12 @@ feature {NONE} -- Implementation ...
 			else
 				l_val := a_i
 			end
-			l_str := l_val.out
-			
-			Result.append (l_str)
---			from i := l_str.count until i > 8 loop
---				l_str.prepend ('0')
---				i := i + 1
---			end
+			w := print_width_decimal (l_val)
+			from i := w until i > 8 loop
+				Result.append_character ('0')
+				i := i + 1
+			end
+			Result.append_integer_64 (l_val)
 		end			
 
 	write_buffer: STRING_8
@@ -361,6 +309,7 @@ feature {NONE} -- Implementation ...
 			Result.wipe_out
 		end
 
+	Execute_db_calls: BOOLEAN = True
 
 	procorder (path: STRING; rnum: INTEGER_64; rnd: BOOLEAN; etc: BOOLEAN; tran: BOOLEAN; oflags: INTEGER_32): INTEGER_32
 		local
@@ -420,7 +369,7 @@ feature {NONE} -- Implementation ...
 	    		end
 				kbuf := key_buffer (rnd, rnum, i); ksiz := kbuf.count
 			--	print ("Key: "); print (kbuf); print ("%N")
-	    		if 0 = kc_dbset (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then
+	    		if Execute_db_calls and then 0 = kc_dbset (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then
 	      			dberrprint (db, C__LINE__, "kc_dbset")
 	      			err := True
 	    		end
@@ -453,7 +402,7 @@ feature {NONE} -- Implementation ...
 					end
 					kbuf := key_buffer (rnd, rnum, i); ksiz := kbuf.count
 			--		print ("Key: "); print (kbuf); print ("%N")
-					if 0 = kc_dbadd (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then 
+					if Execute_db_calls and then 0 = kc_dbadd (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then 
 			--			print ("kc_dbadd failed ...%N")
 			--			print ("Ecode = "); print (kc_dbecode (db).out); print ("%N")
 			--			print ("KCE_DUPREC = "); print (KCE_DUPREC.out); print ("%N")
@@ -490,7 +439,7 @@ feature {NONE} -- Implementation ...
 						err := True
 					end
 					kbuf := key_buffer (rnd, rnum, i); ksiz := kbuf.count
-					if 0 = kc_dbappend (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then
+					if Execute_db_calls and then 0 = kc_dbappend (db, kbuf.area.base_address, ksiz, kbuf.area.base_address, ksiz) then
 						dberrprint (db, C__LINE__, "kcdbappend")
 						err := True
 					end
@@ -560,7 +509,11 @@ feature {NONE} -- Implementation ...
 						err := True
 					end
 					kbuf := key_buffer (rnd, rnum, i); ksiz := kbuf.count
-					wsiz := kc_dbgetbuf (db, kbuf.area.base_address, ksiz, write_buffer.area.base_address, write_buffer.capacity)
+					if Execute_db_calls then 
+						wsiz := kc_dbgetbuf (db, kbuf.area.base_address, ksiz, write_buffer.area.base_address, write_buffer.capacity)
+					else
+						wsiz := 0
+					end
 					if wsiz >= 0 then
 						write_buffer.set_count (wsiz)
 --						if (wsiz < (int32_t)ksiz || memcmp(wbuf, kbuf.area.base_address, ksiz)) then
@@ -758,7 +711,7 @@ feature {NONE} -- Implementation ...
 					end
 					kbuf := key_buffer (rnd, rnum, i); ksiz := kbuf.count
 			--		print ("Key: "); print (kbuf); print ("%N")
-					if 0 = kc_dbremove (db, kbuf.area.base_address, ksiz) and then
+					if Execute_db_calls and then 0 = kc_dbremove (db, kbuf.area.base_address, ksiz) and then
 								((not rnd and then not etc) or else kc_dbecode (db) /= KCE_NOREC) then
 						dberrprint (db, C__LINE__, "kcdbremove")
 						err := True

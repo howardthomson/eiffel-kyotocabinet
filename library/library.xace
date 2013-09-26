@@ -8,7 +8,7 @@
 		license: "MIT License"
 	</description>
 
-	<cluster name="ekc_base" location="/data/git/eiffel-kyotocabinet/library">
+	<cluster name="ekc_base" location="/data/git/eiffel/eiffel-kyotocabinet/library">
 		<cluster name="constants"/>
 	</cluster>
 	

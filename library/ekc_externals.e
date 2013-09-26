@@ -1,4 +1,3 @@
-
 note
 
 	description: "EiffeKyotoCabinet Externals"
@@ -314,7 +313,7 @@ feature -- Routines
  		alias "kcdbincrint"
  		end
 
-	kc_dbincrdouble (a_db_ptr: POINTER; a_kbuf: POINTER; a_ksiz: INTEGER_64; double a_num: REAL_64): REAL_64
+	kc_dbincrdouble (a_db_ptr: POINTER; a_kbuf: POINTER; a_ksiz: INTEGER_64; a_num: REAL_64): REAL_64
 			--   Add a number to the numeric value of a record.
 			--   @param db a database object.
 			--   @param kbuf the pointer to the key region.

@@ -28,7 +28,7 @@
 
 	<target name="init_system">
 		<set name="system" value="test_ekc"/>
-		<set name="system_dir" value="/data/git/eiffel-kyotocabinet/test"/>
+		<set name="system_dir" value="/data/git/eiffel/eiffel-kyotocabinet/test"/>
 	</target>
 
 	<target name="test_ekc" depend="prepare_compile">
